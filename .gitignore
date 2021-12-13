@@ -130,6 +130,7 @@ dmypy.json
 
 # my files
 test.py
-report
 .DS_Store
 **/.DS_Store
+private
+.vscode
