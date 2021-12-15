@@ -1,5 +1,7 @@
 import os
 from random import randint
+import numpy as np
+import pandas as pd
 
 def build_testcase(N,p,q,Range):
     with open(os.path.join(os.path.dirname(__file__),"HW1DS.txt"),'w') as f:
@@ -38,7 +40,6 @@ def read_dataset(file, atr):
             return list(map(lambda x: [float(i) for i in (x.split(',')[atr[0]:atr[1]])], f.read().splitlines()))
 
 def read_dataset_with_pandas(file, atr= None):
-    import pandas as pd
     colName = pd.read_csv(os.path.join(os.path.dirname(__file__),file),nrows=0).columns
     if (type(atr) == int):
         colName = [colName[atr]]
@@ -76,7 +77,17 @@ def dataframe_to_docx_table(header,data,file,doc=None,save=1):
 
 def string_to_dataframe(string):
     from io import StringIO
-    import pandas as pd
     data = StringIO(string)
     return pd.read_csv(data)
 
+def generate_dataset(
+    file: str, mean_ds: np.ndarray, cov_ds: np.ndarray,
+        sampels_size: int) -> pd.core.frame.DataFrame:
+    dataset = pd.DataFrame(data={'X1': [], 'X2': [], 'Y': []})
+    for i in range(mean_ds.shape[0]):
+        x1, x2 = np.random.multivariate_normal(
+            mean_ds[i], cov_ds[i], sampels_size).T
+        temp = pd.DataFrame(data={'X1': x1, 'X2': x2, 'Y': [i]*sampels_size})
+        dataset = pd.concat([dataset, temp], axis=0)
+    dataset.to_csv(file, index=False)
+    return dataset
