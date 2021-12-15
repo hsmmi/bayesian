@@ -1,7 +1,7 @@
 import numpy as np
 from bayesian import Bayesian
 from my_io import generate_dataset
-from plotter import plot_decision_boundary_LDA
+from plotter import plot_contour, plot_decision_boundary_LDA, plot_pdf
 
 
 def linear_discriminant_analysis_runner():
@@ -11,14 +11,30 @@ def linear_discriminant_analysis_runner():
         print(
             f'In dataset BC-{i} accuracy train is {LDA.accuracy_train}',
             f' and accuracy test is {LDA.accuracy_test}')
-        # plot_decision_boundary_LDA(
-        #     LDA.X_train, LDA.y_train, LDA.predicted_label_train,
-        #     LDA.diffrent_label, LDA.phi, LDA.mean_class,
-        #     LDA.sigma, f'LDA dataset BC-Train{i}')
-        # plot_decision_boundary_LDA(
-        #     LDA.X_test, LDA.y_test, LDA.predicted_label_test,
-        #     LDA.diffrent_label, LDA.phi, LDA.mean_class,
-        #     LDA.sigma, f'LDA dataset BC-Test{i}')
+        plot_decision_boundary_LDA(
+            LDA.X_train, LDA.y_train, LDA.predicted_label_train,
+            LDA.diffrent_label, LDA.phi, LDA.mean_class,
+            LDA.sigma, f'LDA dataset BC-Train{i} - Decision Boundary')
+        plot_decision_boundary_LDA(
+            LDA.X_test, LDA.y_test, LDA.predicted_label_test,
+            LDA.diffrent_label, LDA.phi, LDA.mean_class,
+            LDA.sigma, f'LDA dataset BC-Test{i} - Decision Boundary')
+        plot_pdf(
+            LDA.X_train, LDA.y_train,
+            LDA.diffrent_label, LDA.phi, LDA.mean_class,
+            LDA.sigma, f'LDA dataset BC-Train{i} - PDF')
+        plot_pdf(
+            LDA.X_test, LDA.y_test,
+            LDA.diffrent_label, LDA.phi, LDA.mean_class,
+            LDA.sigma, f'LDA dataset BC-Test{i} - PDF')
+        plot_contour(
+            LDA.X_train, LDA.y_train,
+            LDA.diffrent_label, LDA.phi, LDA.mean_class,
+            LDA.sigma, f'LDA dataset BC-Train{i} - Contour')
+        plot_contour(
+            LDA.X_test, LDA.y_test,
+            LDA.diffrent_label, LDA.phi, LDA.mean_class,
+            LDA.sigma, f'LDA dataset BC-Test{i} - Contour')
 
 
 # linear_discriminant_analysis_runner()  # uncomment to run LDA

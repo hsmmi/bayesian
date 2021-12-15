@@ -1,5 +1,6 @@
 from matplotlib import pyplot as plt
 import numpy as np
+from scipy.stats import multivariate_normal
 
 
 def plot_decision_boundary(X_input, classes_input, theta, title=None):
@@ -56,4 +57,53 @@ def plot_decision_boundary_LDA(
         f'\n{np.round(a[0][0], 6)}x0+{np.round(a[1][0], 6)}x1' +
         f'+{np.round(b[0][0], 6)}=0')
     plt.show()
-    print("hi")
+
+
+def plot_pdf(
+        X_input, y_input, label_input,
+        phi, mean, sigma, title=None):
+    fig = plt.figure()
+    ax = fig.add_subplot(projection='3d')
+    for label in label_input:
+        class_label = X_input[(y_input == label).flatten()]
+        x0_mesh, x1_mesh = np.mgrid[
+            np.min(class_label[:, 0]):np.max(class_label[:, 0]):0.01,
+            np.min(class_label[:, 1]):np.max(class_label[:, 1]):0.01]
+        pos = np.dstack((x0_mesh, x1_mesh))
+        prob = multivariate_normal(mean[label][0], sigma).pdf(pos)
+        ax.plot_surface(x0_mesh, x1_mesh, prob)
+    plt.title(title)
+    plt.show()
+
+
+def plot_contour(
+        X_input, y_input, label_input,
+        phi, mean, sigma, title=None):
+    for label in label_input:
+        class_label = X_input[(y_input == label).flatten()]
+        x0_mesh, x1_mesh = np.mgrid[
+            np.min(class_label[:, 0]):np.max(class_label[:, 0]):0.01,
+            np.min(class_label[:, 1]):np.max(class_label[:, 1]):0.01]
+        pos = np.dstack((x0_mesh, x1_mesh))
+        plt.contour(
+            x0_mesh, x1_mesh, multivariate_normal(
+                mean[label][0], sigma).pdf(pos), levels=10)
+    for label1 in label_input:
+        for label2 in label_input[label_input < label1]:
+            sigma_inverse = np.linalg.inv(sigma)
+            b = (
+                -1/2 * mean[label1] @ sigma_inverse @ mean[label1].T +
+                1/2 * mean[label2] @ sigma_inverse @ mean[label2].T +
+                np.log(phi[label1]/phi[label2]))
+            a = np.linalg.inv(sigma) @ (mean[label1] - mean[label2]).T
+            min_x0 = (np.min(np.concatenate(
+                (X_input[(y_input == label1).flatten()][:, 0],
+                 X_input[(y_input == label2).flatten()][:, 0]))))
+            max_x0 = (np.max(np.concatenate(
+                (X_input[(y_input == label1).flatten()][:, 0],
+                 X_input[(y_input == label2).flatten()][:, 0]))))
+            min_x1 = ((-b-a[0]*min_x0)/a[1])[0]
+            max_x1 = ((-b-a[0]*max_x0)/a[1])[0]
+            plt.plot([min_x0, max_x0], [min_x1, max_x1], '-')
+    plt.title(title)
+    plt.show()
