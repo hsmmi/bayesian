@@ -52,7 +52,8 @@ def read_dataset_to_X_and_y(file, range_atr=None, normalization=None,
 
 def train_test_split(
                     file, range_atr=None, range_class=None, train_size=0.75,
-                    normalization=None, min_value=None, max_value=None
+                    normalization=None, min_value=None, max_value=None,
+                    add_x0=False
                     ):
     """
     Read dataset from file and split to attribute and clases then slpit
@@ -120,6 +121,13 @@ def train_test_split(
 
     X_train[:, 0] = float(1)
     X_test[:, 0] = float(1)
+
+    if(add_x0 is True):
+        X_train[:, 0] = float(1)
+        X_test[:, 0] = float(1)
+    else:
+        X_train = X_train[:, 1:]
+        X_test = X_test[:, 1:]
 
     indices = np.unique(y_train, return_inverse=True)[1]
     y_train = np.array(([float(i) for i in indices])).reshape(-1, 1)
