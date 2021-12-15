@@ -19,6 +19,7 @@ class Bayesian:
 
         self.diffrent_label, self.count_diffrent_label_train = np.unique(
             self.y_train, return_counts=True)
+        self.diffrent_label = self.diffrent_label.astype(int)
         self.number_of_sample_train = self.X_train.shape[0]
         self.number_of_sample_test = self.X_test.shape[0]
         self.number_of_feature = self.X_train.shape[1]
@@ -53,7 +54,7 @@ class Bayesian:
         find sigma
         '''
         X_demean_in_class = np.copy(self.X_train)
-        for label in self.diffrent_label.astype(int):
+        for label in self.diffrent_label:
             where_label = np.where(self.y_train == label)[0]
             X_demean_in_class[where_label] -= self.mean_class[label]
         return np.cov(X_demean_in_class.T)
@@ -68,14 +69,14 @@ class Bayesian:
         number_of_sample = X_input.shape[0]
         probabilities = np.zeros((number_of_sample, self.number_of_class))
         coefficient = 1  # It's constant and doesn't change argmax
-        covariance_inverse = np.linalg.inv(self.sigma)
-        for label in self.diffrent_label.astype(int):
+        sigma_inverse = np.linalg.inv(self.sigma)
+        for label in self.diffrent_label:
             X_demean = X_input - self.mean_class[label]
             P_X_given_y = coefficient * -0.5 * (
-                    ((X_demean @ covariance_inverse) * X_demean)
+                    ((X_demean @ sigma_inverse) * X_demean)
                     @ np.ones((self.number_of_feature, 1)))
             prior = self.phi[label]
-            probabilities[:, label:label+1] = P_X_given_y + prior
+            probabilities[:, label:label+1] = P_X_given_y + np.log(prior)
         return probabilities
 
     def find_prediction(self, probabilities):
@@ -108,7 +109,7 @@ class Bayesian:
         find sigma
         '''
         sigma = []
-        for label in self.diffrent_label.astype(int):
+        for label in self.diffrent_label:
             where_label = np.where(self.y_train == label)[0]
             X_demean_class_i = (
                 self.X_train[where_label] - self.mean_class[label])
@@ -124,14 +125,14 @@ class Bayesian:
     def find_probabilities_QDA(self, X_input):
         number_of_sample = X_input.shape[0]
         probabilities = np.zeros((number_of_sample, self.number_of_class))
-        for label in self.diffrent_label.astype(int):
+        for label in self.diffrent_label:
             coefficient = 1 / (
                 (2 * np.pi) ** (self.number_of_feature/2)
                 * np.sqrt(abs(np.linalg.det(self.sigma[label]))))
-            covariance_i_inverse = np.linalg.inv(self.sigma[label])
+            sigma_i_inverse = np.linalg.inv(self.sigma[label])
             X_demean = X_input - self.mean_class[label]
             P_X_given_y = coefficient * -0.5 * np.exp(
-                    ((X_demean @ covariance_i_inverse) * X_demean)
+                    ((X_demean @ sigma_i_inverse) * X_demean)
                     @ np.ones((self.number_of_feature, 1)))
             prior = self.phi[label]
             probabilities[:, label:label+1] = P_X_given_y * prior

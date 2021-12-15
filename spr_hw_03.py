@@ -1,19 +1,24 @@
 import numpy as np
 from bayesian import Bayesian
 from my_io import generate_dataset
+from plotter import plot_decision_boundary_LDA
 
 
 def linear_discriminant_analysis_runner():
-    LDA1 = Bayesian('dataset/BC-Train1.csv', 'dataset/BC-Test1.csv')
-    LDA1.runner_LDA()
-    print(
-        f'In dataset BC-1 accuracy train is {LDA1.accuracy_train}',
-        f' and accuracy test is {LDA1.accuracy_test}')
-    LDA2 = Bayesian('dataset/BC-Train2.csv', 'dataset/BC-Test2.csv')
-    LDA2.runner_LDA()
-    print(
-        f'In dataset BC-2 accuracy train is {LDA2.accuracy_train}',
-        f' and accuracy test is {LDA2.accuracy_test}')
+    for i in range(1, 3):
+        LDA = Bayesian(f'dataset/BC-Train{i}.csv', f'dataset/BC-Test{i}.csv')
+        LDA.runner_LDA()
+        print(
+            f'In dataset BC-{i} accuracy train is {LDA.accuracy_train}',
+            f' and accuracy test is {LDA.accuracy_test}')
+        # plot_decision_boundary_LDA(
+        #     LDA.X_train, LDA.y_train, LDA.predicted_label_train,
+        #     LDA.diffrent_label, LDA.phi, LDA.mean_class,
+        #     LDA.sigma, f'LDA dataset BC-Train{i}')
+        # plot_decision_boundary_LDA(
+        #     LDA.X_test, LDA.y_test, LDA.predicted_label_test,
+        #     LDA.diffrent_label, LDA.phi, LDA.mean_class,
+        #     LDA.sigma, f'LDA dataset BC-Test{i}')
 
 
 # linear_discriminant_analysis_runner()  # uncomment to run LDA
