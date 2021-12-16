@@ -1,7 +1,9 @@
 import numpy as np
 from bayesian import Bayesian
 from my_io import generate_dataset
-from plotter import plot_contour, plot_decision_boundary_LDA, plot_pdf
+from plotter import (
+    plot_contour_LDA, plot_contour_QDA, plot_decision_boundary_LDA,
+    plot_decision_boundary_QDA, plot_pdf_LDA, plot_pdf_QDA)
 
 
 def linear_discriminant_analysis_runner():
@@ -19,19 +21,19 @@ def linear_discriminant_analysis_runner():
             LDA.X_test, LDA.y_test, LDA.predicted_label_test,
             LDA.diffrent_label, LDA.phi, LDA.mean_class,
             LDA.sigma, f'LDA dataset BC-Test{i} - Decision Boundary')
-        plot_pdf(
+        plot_pdf_LDA(
             LDA.X_train, LDA.y_train,
             LDA.diffrent_label, LDA.phi, LDA.mean_class,
             LDA.sigma, f'LDA dataset BC-Train{i} - PDF')
-        plot_pdf(
+        plot_pdf_LDA(
             LDA.X_test, LDA.y_test,
             LDA.diffrent_label, LDA.phi, LDA.mean_class,
             LDA.sigma, f'LDA dataset BC-Test{i} - PDF')
-        plot_contour(
+        plot_contour_LDA(
             LDA.X_train, LDA.y_train,
             LDA.diffrent_label, LDA.phi, LDA.mean_class,
             LDA.sigma, f'LDA dataset BC-Train{i} - Contour')
-        plot_contour(
+        plot_contour_LDA(
             LDA.X_test, LDA.y_test,
             LDA.diffrent_label, LDA.phi, LDA.mean_class,
             LDA.sigma, f'LDA dataset BC-Test{i} - Contour')
@@ -69,21 +71,36 @@ def generate_dataset_QLA():
 
 
 def quadratic_discriminant_analysis_runner():
-    QDA1 = Bayesian('dataset/my_QDA_dataset1.csv')
-    QDA1.runner_QDA()
-    print(
-        f'In dataset my_QDA_dataset1 accuracy train is {QDA1.accuracy_train}',
-        f' and accuracy test is {QDA1.accuracy_test}')
-    QDA2 = Bayesian('dataset/my_QDA_dataset2.csv')
-    QDA2.runner_QDA()
-    print(
-        f'In dataset my_QDA_dataset2 accuracy train is {QDA2.accuracy_train}',
-        f' and accuracy test is {QDA2.accuracy_test}')
-    QDA3 = Bayesian('dataset/BC-Train1.csv', 'dataset/BC-Test1.csv')
-    QDA3.runner_QDA()
-    print(
-        f'In dataset BC-1 accuracy train is {QDA3.accuracy_train}',
-        f' and accuracy test is {QDA3.accuracy_test}')
+    for i in range(1, 3):
+        QDA = Bayesian('dataset/my_QDA_dataset1.csv')
+        QDA.runner_QDA()
+        print(
+            f'In dataset my_QDA_dataset{i} accuracy train is ',
+            f'{QDA.accuracy_train} and accuracy test is {QDA.accuracy_test}')
+        plot_decision_boundary_QDA(
+            QDA.X_train, QDA.y_train, QDA.predicted_label_train,
+            QDA.diffrent_label, QDA.phi, QDA.mean_class,
+            QDA.sigma, f'QDA dataset my_QDA_dataset{i} - Decision Boundary')
+        plot_decision_boundary_QDA(
+            QDA.X_test, QDA.y_test, QDA.predicted_label_test,
+            QDA.diffrent_label, QDA.phi, QDA.mean_class,
+            QDA.sigma, f'QDA dataset my_QDA_dataset{i} - Decision Boundary')
+        plot_pdf_QDA(
+            QDA.X_train, QDA.y_train,
+            QDA.diffrent_label, QDA.phi, QDA.mean_class,
+            QDA.sigma, f'QDA dataset my_QDA_dataset{i} - Decision Boundary')
+        plot_pdf_QDA(
+            QDA.X_test, QDA.y_test,
+            QDA.diffrent_label, QDA.phi, QDA.mean_class,
+            QDA.sigma, f'QDA dataset my_QDA_dataset{i} - Decision Boundary')
+        plot_contour_QDA(
+            QDA.X_train, QDA.y_train,
+            QDA.diffrent_label, QDA.phi, QDA.mean_class,
+            QDA.sigma, f'QDA dataset my_QDA_dataset{i} - Contour')
+        plot_contour_QDA(
+            QDA.X_test, QDA.y_test,
+            QDA.diffrent_label, QDA.phi, QDA.mean_class,
+            QDA.sigma, f'QDA dataset my_QDA_dataset{i} - Contour')
 
 
-# quadratic_discriminant_analysis_runner()  # uncomment to run QDA
+quadratic_discriminant_analysis_runner()  # uncomment to run QDA
