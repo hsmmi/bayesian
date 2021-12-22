@@ -13,33 +13,42 @@ def linear_discriminant_analysis_runner():
         print(
             f'In dataset BC-{i} accuracy train is {LDA.accuracy_train}',
             f' and accuracy test is {LDA.accuracy_test}')
-        plot_decision_boundary_LDA(
-            LDA.X_train, LDA.y_train, LDA.predicted_label_train,
-            LDA.diffrent_label, LDA.phi, LDA.mean_class,
-            LDA.sigma, f'LDA dataset BC-Train{i} - Decision Boundary')
-        plot_decision_boundary_LDA(
-            LDA.X_test, LDA.y_test, LDA.predicted_label_test,
-            LDA.diffrent_label, LDA.phi, LDA.mean_class,
-            LDA.sigma, f'LDA dataset BC-Test{i} - Decision Boundary')
-        plot_pdf_LDA(
-            LDA.X_train, LDA.y_train,
-            LDA.diffrent_label, LDA.phi, LDA.mean_class,
-            LDA.sigma, f'LDA dataset BC-Train{i} - PDF')
-        plot_pdf_LDA(
-            LDA.X_test, LDA.y_test,
-            LDA.diffrent_label, LDA.phi, LDA.mean_class,
-            LDA.sigma, f'LDA dataset BC-Test{i} - PDF')
-        plot_contour_LDA(
-            LDA.X_train, LDA.y_train,
-            LDA.diffrent_label, LDA.phi, LDA.mean_class,
-            LDA.sigma, f'LDA dataset BC-Train{i} - Contour')
-        plot_contour_LDA(
-            LDA.X_test, LDA.y_test,
-            LDA.diffrent_label, LDA.phi, LDA.mean_class,
-            LDA.sigma, f'LDA dataset BC-Test{i} - Contour')
+        print(
+            f'In dataset BC-{i} precision train is {LDA.precision_train}',
+            f' and precision test is {LDA.precision_test}')
+        print(
+            f'In dataset BC-{i} recall train is {LDA.recall_train}',
+            f' and recall test is {LDA.recall_test}')
+        print(
+            f'In dataset BC-{i} f1 train is {LDA.f1_train}',
+            f' and f1 test is {LDA.f1_test}')
+        # plot_decision_boundary_LDA(
+        #     LDA.X_train, LDA.y_train, LDA.predicted_label_train,
+        #     LDA.diffrent_label, LDA.phi, LDA.mean_class,
+        #     LDA.sigma, f'LDA dataset BC-Train{i} - Decision Boundary')
+        # plot_decision_boundary_LDA(
+        #     LDA.X_test, LDA.y_test, LDA.predicted_label_test,
+        #     LDA.diffrent_label, LDA.phi, LDA.mean_class,
+        #     LDA.sigma, f'LDA dataset BC-Test{i} - Decision Boundary')
+        # plot_pdf_LDA(
+        #     LDA.X_train, LDA.y_train,
+        #     LDA.diffrent_label, LDA.phi, LDA.mean_class,
+        #     LDA.sigma, f'LDA dataset BC-Train{i} - PDF')
+        # plot_pdf_LDA(
+        #     LDA.X_test, LDA.y_test,
+        #     LDA.diffrent_label, LDA.phi, LDA.mean_class,
+        #     LDA.sigma, f'LDA dataset BC-Test{i} - PDF')
+        # plot_contour_LDA(
+        #     LDA.X_train, LDA.y_train,
+        #     LDA.diffrent_label, LDA.phi, LDA.mean_class,
+        #     LDA.sigma, f'LDA dataset BC-Train{i} - Contour')
+        # plot_contour_LDA(
+        #     LDA.X_test, LDA.y_test,
+        #     LDA.diffrent_label, LDA.phi, LDA.mean_class,
+        #     LDA.sigma, f'LDA dataset BC-Test{i} - Contour')
 
 
-# linear_discriminant_analysis_runner()  # uncomment to run LDA
+linear_discriminant_analysis_runner()  # uncomment to run LDA
 
 
 def generate_dataset_QLA():
@@ -77,30 +86,30 @@ def quadratic_discriminant_analysis_runner():
         print(
             f'In dataset my_QDA_dataset{i} accuracy train is ',
             f'{QDA.accuracy_train} and accuracy test is {QDA.accuracy_test}')
-        plot_decision_boundary_QDA(
-            QDA.X_train, QDA.y_train, QDA.predicted_label_train,
-            QDA.diffrent_label, QDA.phi, QDA.mean_class,
-            QDA.sigma, f'QDA dataset my_QDA_dataset{i} - Decision Boundary')
-        plot_decision_boundary_QDA(
-            QDA.X_test, QDA.y_test, QDA.predicted_label_test,
-            QDA.diffrent_label, QDA.phi, QDA.mean_class,
-            QDA.sigma, f'QDA dataset my_QDA_dataset{i} - Decision Boundary')
-        plot_pdf_QDA(
-            QDA.X_train, QDA.y_train,
-            QDA.diffrent_label, QDA.phi, QDA.mean_class,
-            QDA.sigma, f'QDA dataset my_QDA_dataset{i} - Decision Boundary')
-        plot_pdf_QDA(
-            QDA.X_test, QDA.y_test,
-            QDA.diffrent_label, QDA.phi, QDA.mean_class,
-            QDA.sigma, f'QDA dataset my_QDA_dataset{i} - Decision Boundary')
-        plot_contour_QDA(
-            QDA.X_train, QDA.y_train,
-            QDA.diffrent_label, QDA.phi, QDA.mean_class,
-            QDA.sigma, f'QDA dataset my_QDA_dataset{i} - Contour')
-        plot_contour_QDA(
-            QDA.X_test, QDA.y_test,
-            QDA.diffrent_label, QDA.phi, QDA.mean_class,
-            QDA.sigma, f'QDA dataset my_QDA_dataset{i} - Contour')
+        # plot_decision_boundary_QDA(
+        #     QDA.X_train, QDA.y_train, QDA.predicted_label_train,
+        #     QDA.diffrent_label, QDA.phi, QDA.mean_class, QDA.sigma,
+        #     f'QDA dataset my_QDA_dataset{i} Train - Decision Boundary')
+        # plot_decision_boundary_QDA(
+        #     QDA.X_test, QDA.y_test, QDA.predicted_label_test,
+        #     QDA.diffrent_label, QDA.phi, QDA.mean_class, QDA.sigma,
+        #     f'QDA dataset my_QDA_dataset{i} Test - Decision Boundary')
+        # plot_pdf_QDA(
+        #     QDA.X_train, QDA.y_train,
+        #     QDA.diffrent_label, QDA.phi, QDA.mean_class,
+        #     QDA.sigma, f'QDA dataset my_QDA_dataset{i} Train - pdf')
+        # plot_pdf_QDA(
+        #     QDA.X_test, QDA.y_test,
+        #     QDA.diffrent_label, QDA.phi, QDA.mean_class,
+        #     QDA.sigma, f'QDA dataset my_QDA_dataset{i} Test - pdf')
+        # plot_contour_QDA(
+        #     QDA.X_train, QDA.y_train,
+        #     QDA.diffrent_label, QDA.phi, QDA.mean_class,
+        #     QDA.sigma, f'QDA dataset my_QDA_dataset{i} Train - Contour')
+        # plot_contour_QDA(
+        #     QDA.X_test, QDA.y_test,
+        #     QDA.diffrent_label, QDA.phi, QDA.mean_class,
+        #     QDA.sigma, f'QDA dataset my_QDA_dataset{i} Test - Contour')
 
 
 quadratic_discriminant_analysis_runner()  # uncomment to run QDA

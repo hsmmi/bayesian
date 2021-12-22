@@ -1,5 +1,6 @@
 import numpy as np
 from preprocessing import read_dataset_to_X_and_y, train_test_split
+from score import accuracy_score, f1_score, precision_score, recall_score
 
 
 class Bayesian:
@@ -29,9 +30,15 @@ class Bayesian:
         self.probabilities_train = None
         self.predicted_label_train = None
         self.accuracy_train = None
+        self.precision_train = None
+        self.recall_train = None
+        self.f1_train = None
         self.probabilities_test = None
         self.predicted_label_test = None
         self.accuracy_test = None
+        self.precision_test = None
+        self.recall_test = None
+        self.f1_test = None
 
     def find_mean_class_i(self, label):
         '''
@@ -82,23 +89,38 @@ class Bayesian:
     def find_prediction(self, probabilities):
         return np.argmax(probabilities, axis=1).reshape(-1, 1)
 
-    def find_accuracy(self, y_input, predicted_label):
-        return sum(y_input == predicted_label) / y_input.shape[0]
+    def find_scores(self, kind):
+        if kind == 'train':
+            self.accuracy_train = accuracy_score(
+                self.y_train, self.predicted_label_train)
+            self.precision_train = precision_score(
+                self.y_train, self.predicted_label_train)
+            self.recall_train = recall_score(
+                self.y_train, self.predicted_label_train)
+            self.f1_train = f1_score(
+                self.y_train, self.predicted_label_train)
+        if kind == 'test':
+            self.accuracy_test = accuracy_score(
+                self.y_test, self.predicted_label_test)
+            self.precision_test = precision_score(
+                self.y_test, self.predicted_label_test)
+            self.recall_test = recall_score(
+                self.y_test, self.predicted_label_test)
+            self.f1_test = f1_score(
+                self.y_test, self.predicted_label_test)
 
     def runner_train_LDA(self):
         self.find_parameters_LDA()
         self.probabilities_train = self.find_probabilities_LDA(self.X_train)
         self.predicted_label_train = self.find_prediction(
             self.probabilities_train)
-        self.accuracy_train = self.find_accuracy(
-            self.y_train, self.predicted_label_train)
+        self.find_scores('train')
 
     def runner_test_LDA(self):
         self.probabilities_test = self.find_probabilities_LDA(self.X_test)
         self.predicted_label_test = self.find_prediction(
             self.probabilities_test)
-        self.accuracy_test = self.find_accuracy(
-            self.y_test, self.predicted_label_test)
+        self.find_scores('test')
 
     def runner_LDA(self):
         self.runner_train_LDA()
@@ -143,15 +165,13 @@ class Bayesian:
         self.probabilities_train = self.find_probabilities_QDA(self.X_train)
         self.predicted_label_train = self.find_prediction(
             self.probabilities_train)
-        self.accuracy_train = self.find_accuracy(
-            self.y_train, self.predicted_label_train)
+        self.find_scores('train')
 
     def runner_test_QDA(self):
         self.probabilities_test = self.find_probabilities_QDA(self.X_test)
         self.predicted_label_test = self.find_prediction(
             self.probabilities_test)
-        self.accuracy_test = self.find_accuracy(
-            self.y_test, self.predicted_label_test)
+        self.find_scores('test')
 
     def runner_QDA(self):
         self.runner_train_QDA()
